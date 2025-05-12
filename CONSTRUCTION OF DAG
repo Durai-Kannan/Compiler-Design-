@@ -1,0 +1,145 @@
+#include<stdio.h>
+
+#include<ctype.h>
+
+#include<conio.h>
+
+void main()
+
+{
+
+struct da
+
+{
+
+int ptr, left , right;
+
+char label;
+
+}dag[25];
+
+int ptr,j,change,n=0, i=0,x,y,k;
+
+char store,*input1,input[25],var;
+
+clrscr();
+
+for(i=0;i<25;i++)
+
+{
+
+dag[i].ptr=NULL;dag[i].left=NULL;
+
+dag[i].right=NULL ;
+
+dag[i].label=NULL;
+
+}
+
+ printf("Hint: Provide the expression inside paranthesis stating the priority option");
+
+printf("\nFor Example:a+b*c is given as (a+(b*c)) ");
+
+printf("\nENTER THE EXPRESSION");
+
+scanf("%s",input1);
+
+/*EX: ((a*b-c))+((b-c)*d)) like this give with parenthesis limit is 25 char u can 
+
+change that*/
+
+for(i=0;i<25;i++)
+
+input[i]=NULL;
+
+a:
+
+for(i=0;input1[i]!=')';i++);
+
+for(j=i;input1[j]!='(';j--);
+
+for(x=j+1;x<i;x++)
+
+if(isalpha(input1[x]))
+
+input[n++]=input1[x];
+
+else if(input1[x]!='0') 
+
+store=input1[x];
+
+input[n++]=store;
+
+for(x=j;x<=i ;x++)
+
+input1[x]='0';
+
+if(input1[0]!='0')
+
+goto a;
+
+for(i=0;i<n;i++)
+
+{
+
+dag[i].label=input[i];
+
+dag[i].ptr=i;
+
+if(!isalpha(input[i])&&!isdigit(input[i]))
+
+{
+
+dag[i].right=i-1;
+
+ptr=i;
+
+var=input[i-1];
+
+if(isalpha(var))
+
+ptr=ptr-2;else
+
+{
+
+ptr=i-1;
+
+b:
+
+if(!isalpha(var)&&! isdigit(var))
+
+{
+
+ptr=dag[ptr].left ;
+
+var=input[ptr];
+
+goto b;
+
+}
+
+else
+
+ptr=ptr-1;
+
+}
+
+dag[i].left=ptr;
+
+}
+
+}
+
+printf("\n DAG FOR GIVEN EXPRESSION");
+
+printf("\n\n PTR \t LEFT PTR \t RIGHT PTR \t LABEL");
+
+for(i=0;i<n;i++)
+
+/*draw DAG for the following output with pointer value*/
+
+printf("\n %d\t\t%d\t\t%d\t\t%c",dag[i].ptr,dag[i].left,dag[i].right,dag[i].label);
+
+getch();
+
+}
